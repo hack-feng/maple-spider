@@ -39,7 +39,6 @@ public class HtmlToMdUtil {
         //获取文章标题
         if (StringUtils.isNotBlank(query.getTitleSelector())) {
             Elements title = doc.select(query.getTitleSelector());
-            System.out.println(title);
             if (Objects.nonNull(title) && !title.isEmpty()) {
                 model.setTitle(title.get(0).text());
             }
@@ -48,7 +47,6 @@ public class HtmlToMdUtil {
         // 获取文章作者
         if (StringUtils.isNotBlank(query.getAuthorSelector())) {
             Elements author = doc.select(query.getAuthorSelector());
-            System.out.println(author);
             if (Objects.nonNull(author) && !author.isEmpty()) {
                 model.setAuthor(author.get(0).text());
             }
@@ -57,7 +55,6 @@ public class HtmlToMdUtil {
         // 获取文章描述
         if (StringUtils.isNotBlank(query.getDescSelector())) {
             Elements desc = doc.select(query.getDescSelector());
-            System.out.println(desc);
             if (Objects.nonNull(desc) && !desc.isEmpty()) {
                 model.setDesc(desc.get(0).attr("content"));
             }
@@ -66,7 +63,6 @@ public class HtmlToMdUtil {
         // 获取文章内容
         if (StringUtils.isNotBlank(query.getContentSelector())) {
             Elements content = doc.select(query.getContentSelector());
-            System.out.println(content);
             if (Objects.nonNull(content) && !content.isEmpty()) {
                 model.setContentHtml(content.html());
                 // 将获取到的内容从HTML格式转换为Markdown格式
@@ -78,13 +74,16 @@ public class HtmlToMdUtil {
         // 获取文章标签
         if (StringUtils.isNotBlank(query.getTabSelector())) {
             Elements tag = doc.select(query.getTabSelector());
-            System.out.println(tag);
             if (Objects.nonNull(tag) && !tag.isEmpty()) {
                 List<String> tagList = new ArrayList<>();
                 for (Element element : tag) {
                     tagList.add(element.text());
                 }
                 model.setTab(String.join(",", tagList));
+                // 取mate标签下的内容
+                if (StringUtils.isBlank(model.getTab())) {
+                    model.setTab(tag.get(0).attr("content"));
+                }
             }
         }
         return model;
