@@ -1,7 +1,6 @@
 package com.maple.spider.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -10,14 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class WebController {
-
-    @RequestMapping(value = "/{module}/{name}")
-    public String commonController2(@PathVariable String module, @PathVariable String name) {
-        return module + "/" + name;
+    @RequestMapping(value = "/md.html")
+    public String commonController() {
+        return "md.html";
     }
 
-    @RequestMapping(value = "/{name}")
-    public String commonController(@PathVariable String name) {
-        return name;
-    }
+    
 }

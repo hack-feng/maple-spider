@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.maple.spider.controller.MdController,\
+com.maple.spider.controller.WebController

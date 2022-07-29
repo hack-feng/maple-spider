@@ -38,7 +38,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/editormd/**")
+                .addResourceLocations("classpath:/META-INF/resources/editormd/");
     }
 
     @Bean
