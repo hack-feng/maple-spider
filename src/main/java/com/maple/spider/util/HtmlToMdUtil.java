@@ -18,7 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @author zhangfuzeng
+ * @author xiaoxiaofeng
  * @date 2022/7/25
  */
 public class HtmlToMdUtil {
@@ -69,7 +69,7 @@ public class HtmlToMdUtil {
                 model.setContentHtml(content.html());
                 // 将获取到的内容从HTML格式转换为Markdown格式
                 Remark remark = new Remark();
-                model.setContentMd(remark.convert(content.html()));
+                model.setContentMd(handleImage(remark.convert(content.html())));
             }
         }
 
@@ -106,13 +106,13 @@ public class HtmlToMdUtil {
 
     static final Pattern pattern = Pattern.compile("\\[[0-9A-Za-z:/[-]_#[?][=][.][&]]*\\]: [http|https]+[://]+[0-9A-Za-z:/[-]_#[?][=][.][&]]*[.png|.jpg|.gif|.jepg]");
 
-    public static void main(String[] args) {
-        String test = "\n" +
-                "![b52c1b6931452c37cdaaf80ee35cd50d.png][]" +
-                "[e0e008a0b3de398b684d3beed9545301.png]: https://img-blog.csdnimg.cn/img_convert/e0e008a0b3de398b684d3beed9545301.png\n" +
-                "[b52c1b6931452c37cdaaf80ee35cd50d.png]: https://img-blog.csdnimg.cn/img_convert/b52c1b6931452c37cdaaf80ee35cd50d.png";
-
-        Matcher m = pattern.matcher(test);
+    /**
+     * 处理图片
+     * @param mdContent
+     * @return
+     */
+    public static String handleImage(String mdContent) {
+        Matcher m = pattern.matcher(mdContent);
 
         int index = 0;
         while (m.find() && index < 50) {
@@ -121,10 +121,10 @@ public class HtmlToMdUtil {
             String[] urlArray = url.split(": ");
             String a = "!" + urlArray[0] + "\u005B]";
             String imageUrl = UpyOssUtil.uploadUpy(urlArray[1]);
-            String b = "![笑小枫](" + imageUrl + ")";
-            test = test.replace(a, b);
+            String b = "![笑小枫-www.xiaoxiaofeng.com](" + imageUrl + ")";
+            mdContent = mdContent.replace(a, b);
         }
-        System.out.println(test);
+        return mdContent;
 
     }
 }
