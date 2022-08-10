@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author zhangfuzeng
@@ -102,4 +104,27 @@ public class HtmlToMdUtil {
         return null;
     }
 
+    static final Pattern pattern = Pattern.compile("\\[[0-9A-Za-z:/[-]_#[?][=][.][&]]*\\]: [http|https]+[://]+[0-9A-Za-z:/[-]_#[?][=][.][&]]*[.png|.jpg|.gif|.jepg]");
+
+    public static void main(String[] args) {
+        String test = "\n" +
+                "![b52c1b6931452c37cdaaf80ee35cd50d.png][]" +
+                "[e0e008a0b3de398b684d3beed9545301.png]: https://img-blog.csdnimg.cn/img_convert/e0e008a0b3de398b684d3beed9545301.png\n" +
+                "[b52c1b6931452c37cdaaf80ee35cd50d.png]: https://img-blog.csdnimg.cn/img_convert/b52c1b6931452c37cdaaf80ee35cd50d.png";
+
+        Matcher m = pattern.matcher(test);
+
+        int index = 0;
+        while (m.find() && index < 50) {
+            index++;
+            String url = m.group(0);
+            String[] urlArray = url.split(": ");
+            String a = "!" + urlArray[0] + "\u005B]";
+            String imageUrl = UpyOssUtil.uploadUpy(urlArray[1]);
+            String b = "![笑小枫](" + imageUrl + ")";
+            test = test.replace(a, b);
+        }
+        System.out.println(test);
+
+    }
 }
