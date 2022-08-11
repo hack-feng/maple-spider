@@ -17,6 +17,7 @@ public class MdController {
 
     @RequestMapping("/transArticle")
     public ArticleModel transArticle(@RequestBody ArticleQuery query) {
+        System.out.println("获取文章开始" + query.getUrl());
         return HtmlToMdUtil.getArticle(query);
     }
 }

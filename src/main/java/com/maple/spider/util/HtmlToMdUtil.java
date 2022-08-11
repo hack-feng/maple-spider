@@ -88,6 +88,7 @@ public class HtmlToMdUtil {
                 }
             }
         }
+        System.out.println("获取文章信息完成");
         return model;
     }
 
@@ -121,6 +122,7 @@ public class HtmlToMdUtil {
             String[] urlArray = url.split(": ");
             String a = "!" + urlArray[0] + "\u005B]";
             String imageUrl = UpyOssUtil.uploadUpy(urlArray[1]);
+            System.out.println(imageUrl);
             String b = "![笑小枫-www.xiaoxiaofeng.com](" + imageUrl + ")";
             mdContent = mdContent.replace(a, b);
         }
