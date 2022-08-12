@@ -54,11 +54,11 @@ public class UpyOssUtil {
             int size = conn.getContentLength();
 
             if (size > 1000 * 1024) {
-                Thumbnails.of(inputStream).scale(0.8f).outputFormat("jpg").outputQuality(0.5).toOutputStream(outputStream);
+                Thumbnails.of(inputStream).scale(0.8f).outputFormat("jpg").outputQuality(0.6).toOutputStream(outputStream);
             } else if (size > 500 * 1024) {
                 Thumbnails.of(inputStream).scale(0.8f).outputFormat("jpg").outputQuality(0.8).toOutputStream(outputStream);
             } else if (size > 100 * 1024) {
-                Thumbnails.of(inputStream).scale(0.9f).outputFormat("jpg").outputQuality(0.8).toOutputStream(outputStream);
+                Thumbnails.of(inputStream).scale(0.9f).outputFormat("jpg").outputQuality(0.9).toOutputStream(outputStream);
             } else {
                 Thumbnails.of(inputStream).scale(1f).outputQuality(1).toOutputStream(outputStream);
             }
