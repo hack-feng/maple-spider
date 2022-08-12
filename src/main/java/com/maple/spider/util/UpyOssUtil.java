@@ -30,13 +30,16 @@ public class UpyOssUtil {
      * 根据url上传文件到七牛云
      */
     public static String uploadUpy(String url) {
+        if (!url.contains(".png") && !url.contains(".jpg") && !url.contains(".gif") && !url.contains(".jepg")) {
+            return url;
+        }
         Calendar calendar = Calendar.getInstance();
         String flag = "/";
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;
         int day = calendar.get(Calendar.DATE);
         String filePath = "/spider/" + year + flag + month + flag + day + flag;
-        String fileName = filePath + "xxf-" + System.currentTimeMillis() + url.substring(url.lastIndexOf("."));
+        String fileName = filePath + "xxf-" + System.currentTimeMillis() + getUrlName(url.substring(url.lastIndexOf(".")));
         RestManager restManager = new RestManager(BUCKET_NAME, OPERATOR_NAME, OPERATOR_PWD);
 
         URI u = URI.create(url);
@@ -53,6 +56,13 @@ public class UpyOssUtil {
             e.printStackTrace();
         }
         return url;
+    }
+
+    private static String getUrlName(String url) {
+        if (url.equals(".png") || url.equals(".jpg") || url.equals(".gif") || url.equals(".jepg")) {
+            return url;
+        }
+        return ".jpg";
     }
 
 }
