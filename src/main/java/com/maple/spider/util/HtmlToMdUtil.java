@@ -105,7 +105,7 @@ public class HtmlToMdUtil {
         return null;
     }
 
-    static final Pattern pattern = Pattern.compile("\\[[0-9A-Za-z:/[-]_#[?][=][.][&]]*\\]: [http|https]+[://]+[0-9A-Za-z:/[-]_#[?][=][.][&]]*[.png|.jpg|.gif|.jepg]");
+    static final Pattern PATTERN = Pattern.compile("\\[.*]: [http|https]+[://]+[0-9A-Za-z:/[-]_#[?][=][.][&]]*[png|jpg|gif|jepg]");
 
     /**
      * 处理图片
@@ -113,18 +113,19 @@ public class HtmlToMdUtil {
      * @return
      */
     public static String handleImage(String mdContent) {
-        Matcher m = pattern.matcher(mdContent);
+        Matcher m = PATTERN.matcher(mdContent);
 
         int index = 0;
         while (m.find() && index < 50) {
             index++;
             String url = m.group(0);
             String[] urlArray = url.split(": ");
-            String a = "!" + urlArray[0] + "\u005B]";
+            String a = "(!" + urlArray[0] + "[.*])|(![.*]" + urlArray[0] + ")";
+            a = a.replace("[", "\\[");
             String imageUrl = UpyOssUtil.uploadUpy(urlArray[1]);
             System.out.println(imageUrl);
             String b = "![笑小枫-www.xiaoxiaofeng.com](" + imageUrl + ")";
-            mdContent = mdContent.replace(a, b);
+            mdContent = mdContent.replaceAll(a, b);
         }
         return mdContent;
 
