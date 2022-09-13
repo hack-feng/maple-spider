@@ -122,7 +122,7 @@ public class HtmlToMdUtil {
             String[] urlArray = url.split(": ");
             String a = "(!" + urlArray[0] + "[.*])|(![.*]" + urlArray[0] + ")";
             a = a.replace("[", "\\[");
-            String imageUrl = UpyOssUtil.uploadUpy(urlArray[1]);
+            String imageUrl = UpyOssUtil.uploadUpy(urlArray[1].split("\\?")[0]);
             System.out.println(imageUrl);
             String b = "![笑小枫-www.xiaoxiaofeng.com](" + imageUrl + ")";
             mdContent = mdContent.replaceAll(a, b);
