@@ -15,6 +15,7 @@ public enum SourceTemplateEnum {
      *
      */
     CSDN("csdn", "title", ".follow-nickName", "article", ".tag-link", "meta[name=description]"),
+    WOSHIPM("woshipm", "title", ".author.u-flex", ".article--content.grap", "meta[name=keywords]", "meta[name=description]"),
     BOOKSTACK("bookstack", "title", "a[title=内容来源]", "article", "meta[name=keywords]", "meta[name=description]"),
     ;
 
