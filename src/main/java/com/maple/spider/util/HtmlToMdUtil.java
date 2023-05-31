@@ -3,6 +3,7 @@ package com.maple.spider.util;
 import com.maple.spider.bean.ArticleModel;
 import com.maple.spider.bean.ArticleQuery;
 import com.maple.spider.bean.SourceTemplateEnum;
+import com.overzealous.remark.Options;
 import com.overzealous.remark.Remark;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
@@ -16,6 +17,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.overzealous.remark.Options.FencedCodeBlocks.ENABLED_TILDE;
 
 /**
  * @author xiaoxiaofeng
@@ -66,9 +69,28 @@ public class HtmlToMdUtil {
         if (StringUtils.isNotBlank(query.getContentSelector())) {
             Elements content = doc.select(query.getContentSelector());
             if (Objects.nonNull(content) && !content.isEmpty()) {
+                if ("BOOKSTACK".equals(query.getTemplate())) {
+                    Elements toc = doc.select(".markdown-toc.editormd-markdown-toc");
+                    toc.remove();
+                    for (Element element : content) {
+                        Elements aHref = element.getElementsByTag("a");
+                        for (Element aElement : aHref) {
+                            Elements img = aElement.getElementsByTag("img");
+                            if (!img.isEmpty()) {
+                                //获得img标签里面的src这个属性。也就是获取到了这个图片的地址
+                                String src = img.attr("data-original");
+                                img.attr("src", src);
+                                aElement.attr("href", null);
+                            }
+                        }
+                    }
+                }
+
                 model.setContentHtml(content.html());
                 // 将获取到的内容从HTML格式转换为Markdown格式
-                Remark remark = new Remark();
+                Options options = Options.github();
+                Remark remark = new Remark(options);
+//                model.setContentMd((remark.convert(content.html())));
                 model.setContentMd(handleImage(remark.convert(content.html())));
             }
         }
@@ -105,10 +127,11 @@ public class HtmlToMdUtil {
         return null;
     }
 
-    static final Pattern PATTERN = Pattern.compile("\\[.*]: [http|https]+[://]+[0-9A-Za-z:/[-]_#[?][=][.][&]]*[png|jpg|gif|jepg]");
+    static final Pattern PATTERN = Pattern.compile("\\[.*]: [http|https]+[://]+[0-9A-Za-z:/[-]_#[?][=][.][&]]*[png|jpg|gif|jpeg]");
 
     /**
      * 处理图片
+     *
      * @param mdContent
      * @return
      */
@@ -129,5 +152,14 @@ public class HtmlToMdUtil {
         }
         return mdContent;
 
+    }
+
+
+    public static void main(String[] args) {
+        String html = "";
+        // 将获取到的内容从HTML格式转换为Markdown格式
+        Options options = Options.github();
+        Remark remark = new Remark(options);
+        System.out.println(remark.convert(html));
     }
 }

@@ -1,2 +1,7 @@
 server:
   port: 8087
+chatgpt:
+  token: sk-xxxx
+  proxyHost: no
+  proxyPort: 443
+  sessionExpirationTime: 30

@@ -16,7 +16,8 @@ public enum SourceTemplateEnum {
      */
     CSDN("csdn", "title", ".follow-nickName", "article", ".tag-link", "meta[name=description]"),
     WOSHIPM("woshipm", "title", ".author.u-flex", ".article--content.grap", "meta[name=keywords]", "meta[name=description]"),
-    BOOKSTACK("bookstack", "title", "a[title=内容来源]", "article", "meta[name=keywords]", "meta[name=description]"),
+    BOOKSTACK("bookstack", "#article-title", "a[title=内容来源]", "article", "meta[name=keywords]", "meta[name=description]"),
+    GITEE("gitee", "title", "", ".theme-default-content", "", "")
     ;
 
     private final String source;
@@ -35,6 +36,7 @@ public enum SourceTemplateEnum {
         SourceTemplateEnum templateEnum = SourceTemplateEnum.valueOf(query.getTemplate());
         return ArticleQuery.builder()
                 .url(query.getUrl())
+                .template(query.getTemplate())
                 .titleSelector(templateEnum.titleSelector)
                 .authorSelector(templateEnum.authorSelector)
                 .tabSelector(templateEnum.tabSelector)

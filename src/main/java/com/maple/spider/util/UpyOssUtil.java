@@ -30,10 +30,10 @@ public class UpyOssUtil {
 
 
     /**
-     * 根据url上传文件到七牛云
+     * 根据url上传文件到又拍云
      */
     public static String uploadUpy(String url) {
-        if (!url.contains(".png") && !url.contains(".jpg") && !url.contains(".gif") && !url.contains(".jepg")) {
+        if (!url.contains(".png") && !url.contains(".jpg") && !url.contains(".gif") && !url.contains(".jpeg")) {
             return url;
         }
         Calendar calendar = Calendar.getInstance();
@@ -75,7 +75,7 @@ public class UpyOssUtil {
     }
 
     private static String getUrlName(String url) {
-        if (url.equals(".png") || url.equals(".jpg") || url.equals(".gif") || url.equals(".jepg")) {
+        if (url.equals(".png") || url.equals(".jpg") || url.equals(".gif") || url.equals(".jpeg")) {
             return url;
         }
         return ".jpg";

@@ -42,11 +42,6 @@ public class CsdnCommentUtil {
             }
             String url = e.getElementsByTag("a").get(0).attr("href");
             likeAndComment(url, authUrl);
-            try {
-                Thread.sleep(15000);
-            } catch (InterruptedException interruptedException) {
-                interruptedException.printStackTrace();
-            }
             stopFlag++;
         }
     }
@@ -73,11 +68,15 @@ public class CsdnCommentUtil {
                 }
                 authUrl.add(auth);
             }
-
-
             String a = elements.get(0).attr("style").replace(" ", "");
             // 未点赞，点赞+评论
             if (StringUtils.isNotBlank(a) && a.contains("display:block")) {
+                try {
+                    Thread.sleep(15000);
+                } catch (InterruptedException interruptedException) {
+                    interruptedException.printStackTrace();
+                }
+
                 String urlLike = String.format("https://blog.csdn.net//phoenix/web/v1/article/like?articleId=%s", articleId);
                 List<HttpReqInfo> reqInfos = new ArrayList<>();
                 reqInfos.add(new HttpReqInfo("Cookie", cookie, true));
@@ -120,7 +119,7 @@ public class CsdnCommentUtil {
     }
 
     public static void main(String[] args) {
-        submitComment(CommentQuery.builder().commentNum(10).url("https://blog.csdn.net/nav/java").build());
+        submitComment(CommentQuery.builder().commentNum(30).url("https://blog.csdn.net/nav/java").build());
     }
 
     private static String getComment() {
